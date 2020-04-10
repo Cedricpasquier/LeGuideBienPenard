@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">LeGuideBienPénard</string>
+    <string name="le_guide_bien_p_nard">Le Guide Bien Pénard</string>
+    <string name="le_guide_pour_survivre_p_pouze_au_pid_mie">Le guide pour survivre aux épidémies sans contraintes</string>
+    <string name="valider">Valider</string>
+    <string name="identifiant">Identifiant</string>
+    <string name="ex_beargrylls">ex : BearGrylls</string>
+    <string name="mot_de_passe">Mot de passe</string>
+    <string name="ex">ex : ******</string>
 </resources>
