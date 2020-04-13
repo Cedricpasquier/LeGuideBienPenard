@@ -7,4 +7,6 @@
     <string name="mot_de_passe">Mot de passe</string>
     <string name="ex">ex : ******</string>
     <string name="editTextEmail">ex: bearGrylls@gmail.com</string>
+    <string name="create">Créer</string>
+    <string name="create_account">Créer un compte</string>
 </resources>
