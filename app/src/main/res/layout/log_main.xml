@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LogActivity">
+    tools:context=".Model.LogActivity">
 
     <TextView
         android:id="@+id/textViewTitre"
@@ -54,13 +54,14 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/editTextId"
+                android:id="@+id/editTextEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
                 android:ems="10"
-                android:hint="@string/ex_beargrylls"
-                android:inputType="textPersonName" />
+                android:hint="@string/editTextEmail"
+                android:inputType="textEmailAddress" />
+
         </TableRow>
 
         <TableRow

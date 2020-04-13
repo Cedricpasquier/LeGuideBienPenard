@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "451165482562",
+    "firebase_url": "https://leguidebienpenard.firebaseio.com",
+    "project_id": "leguidebienpenard",
+    "storage_bucket": "leguidebienpenard.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:451165482562:android:ca7119e8ad5f058d5b87db",
+        "android_client_info": {
+          "package_name": "com.example.leguidebienpnard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "451165482562-56oip59jm093nno20q9q7pdmq2d5gfvo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVp8lLiHNuSViL7hW2fvW13Z0DTEY-D8c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "451165482562-56oip59jm093nno20q9q7pdmq2d5gfvo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
