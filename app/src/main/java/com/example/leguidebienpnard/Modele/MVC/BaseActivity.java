@@ -1,4 +1,4 @@
-package Vue;
+package com.example.leguidebienpnard.Modele.MVC;
 
 import android.content.Context;
 import android.view.View;

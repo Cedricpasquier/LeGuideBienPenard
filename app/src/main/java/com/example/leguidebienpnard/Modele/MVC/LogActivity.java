@@ -1,4 +1,4 @@
-package Vue;
+package com.example.leguidebienpnard.Modele.MVC;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,9 +30,10 @@ public class LogActivity extends BaseActivity implements View.OnClickListener{
     public EditText editTextEmail;
     public EditText editTextMDP;
     public EditText editTextMDP2;
-    private FirebaseAuth mAuth;
+    public static FirebaseAuth mAuth;
     private Button buttonSwitch;
     private TextView textViewMode;
+    public static String userName;
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     Toast toast;
     private static final String TAG = "EmailPassword";
@@ -120,8 +121,7 @@ public class LogActivity extends BaseActivity implements View.OnClickListener{
         if(user != null){
             Intent intent = new Intent(this, MainActivity.class);
             String[] userAdrress = user.getEmail().split("@");
-            String userName = userAdrress[0];
-            intent.putExtra(EXTRA_MESSAGE, userName);
+            userName = userAdrress[0];
             startActivity(intent);
         }
         hideProgressBar();

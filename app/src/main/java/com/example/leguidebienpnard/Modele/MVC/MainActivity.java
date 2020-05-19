@@ -1,4 +1,4 @@
-package Vue;
+package com.example.leguidebienpnard.Modele.MVC;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,10 +32,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = getIntent();
-        String userName = intent.getStringExtra(LogActivity.EXTRA_MESSAGE);
-
-        Toast.makeText(this,userName, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,userName, Toast.LENGTH_LONG).show();
     }
 
 }
