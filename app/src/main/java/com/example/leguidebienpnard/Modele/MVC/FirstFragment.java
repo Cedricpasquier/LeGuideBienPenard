@@ -1,5 +1,9 @@
 package com.example.leguidebienpnard.Modele.MVC;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +19,9 @@ import com.example.leguidebienpnard.R;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +39,9 @@ public class FirstFragment extends Fragment {
     private RecyclerView recyclerView;
     private ListAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private SharedPreferences sharedPreferences;
+    private Gson gson;
+    private List<User> savedUserList;
 
     @Override
     public View onCreateView(
@@ -46,11 +55,30 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.recycler_view);
+        sharedPreferences = view.getContext().getSharedPreferences("user_prefs",Context.MODE_PRIVATE);
+        gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        savedUserList = getDataFromCache();
+
         makeApiCall();
+
         // use this setting to
         // improve performance if you know that changes
         // in content do not change the layout size
         // of the RecyclerView
+    }
+
+    private List<User> getDataFromCache(){
+        String jsonUserList = sharedPreferences.getString("jsonUserList",null);
+
+        if(jsonUserList == null){
+            return null;
+        } else {
+            Type listType = new TypeToken<List<User>>(){}.getType();
+            return gson.fromJson(jsonUserList,listType);
+        }
     }
 
     private void showRecycler(List<User> listUsers){
@@ -59,15 +87,11 @@ public class FirstFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         HashMap mMap = new HashMap();
-        ArrayList list = new ArrayList();
+        List<Objet> list = new ArrayList();
 
         for(int index = 0 ; index<listUsers.size();index++){
             if(listUsers.get(index).getNameUser().equals(userName)){
-                for(Objet o: listUsers.get(index).getObjets()){
-                    mMap.put(o.name,o.own);
-                    list.add(mMap);
-                    mMap = new HashMap();
-                }
+                list = listUsers.get(index).getObjets();
             }
         }
 
@@ -77,9 +101,7 @@ public class FirstFragment extends Fragment {
 
     private static final String BASE_URL = "https://leguidebienpenard.firebaseio.com/ObjetsDeConfinement/";
     private void makeApiCall(){
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -95,6 +117,7 @@ public class FirstFragment extends Fragment {
                 if(response.isSuccessful() && response.body() != null){
                     List<User> listUsers = response.body();
                     Toast.makeText(getActivity(),"API Success",Toast.LENGTH_SHORT).show();
+                    saveList(listUsers);
                     showRecycler(listUsers);
                 } else{
                     showError();
@@ -103,13 +126,38 @@ public class FirstFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
-                showError();
+                showRecycler(savedUserList);
+                showNoInternet();
             }
         });
     }
 
+    private void saveList(List<User> listUsers) {
+        String jsonString = gson.toJson(listUsers);
+        sharedPreferences
+                .edit()
+                .putString("jsonUserList", jsonString)
+                .apply();
+    }
+
     private void showError(){
         Toast.makeText(getActivity(),"API Error",Toast.LENGTH_SHORT).show();
+    }
+
+    private void showNoInternet(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setCancelable(false);
+        builder.setTitle("Pas de connexion internet");
+        builder.setMessage("Sans connexion internet les changements effectués ne seront pas sauvegardés");
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
     }
 
 }

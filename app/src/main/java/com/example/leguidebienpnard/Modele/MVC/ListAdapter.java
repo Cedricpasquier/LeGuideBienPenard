@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
-    private List<HashMap<String,Integer>> values;
+    private List<Objet> values;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -34,7 +34,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
         }
     }
 
-    public void add(int position, HashMap<String,Integer> item) {
+    public void add(int position, Objet item) {
         values.add(position, item);
         notifyItemInserted(position);
     }
@@ -45,7 +45,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ListAdapter(List<HashMap<String,Integer>> myDataset) {
+    public ListAdapter(List<Objet> myDataset) {
         values = myDataset;
     }
 
@@ -67,9 +67,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ListAdapter.ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        for (String i : values.get(position).keySet()){
-            holder.text.setText(i);
-        }
+
+        holder.text.setText(values.get(position).name);
 
         holder.text.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,13 +77,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
             }
         });
 
-        for (int j : values.get(position).values()){
-            if(j == 0){
-                holder.checkBox.setChecked(false);
-            } else {
-                holder.checkBox.setChecked(true);
-            }
-
+        if(values.get(position).own == 0){
+            holder.checkBox.setChecked(false);
+        } else {
+            holder.checkBox.setChecked(true);
         }
     }
 

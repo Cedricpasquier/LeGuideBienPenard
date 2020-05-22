@@ -76,13 +76,16 @@ public class LogActivity extends BaseActivity implements View.OnClickListener{
             if (!validateForm()) {
                 return;
             }
-            if(!editTextMDP.equals(editTextMDP2)){
+            String first = editTextMDP.getText().toString();
+            String second = editTextMDP2.getText().toString();
+            if(!first.equals(second)){
+                editTextMDP.setText("");
+                editTextMDP2.setText("");
                 editTextMDP.setError("Veuillez entrer le même mot de passe");
                 return;
             }
             createAccount(editTextEmail.getText().toString(), editTextMDP.getText().toString());
-            FirebaseUser user = mAuth.getCurrentUser();
-            updateUI(user);
+            updateUI(null);
             buttonSwitch.setText("Créer un compte");
             findViewById(R.id.buttonValider).setVisibility(View.VISIBLE);
             findViewById(R.id.buttonCreateAccount).setVisibility(View.GONE);

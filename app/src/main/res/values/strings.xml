@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LeGuideBienPénard</string>
+    <string name="app_name">Le Guide Bien Pénard</string>
     <string name="le_guide_bien_p_nard">Le Guide Bien Pénard</string>
     <string name="le_guide_pour_survivre_p_pouze_au_pid_mie">Le guide pour survivre aux épidémies sans contraintes</string>
     <string name="valider">Valider</string>
@@ -21,5 +21,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="example_application">Example application</string>
     <string name="checkbox">CheckBox</string>
+    <string name="rafra_chir">Rafraîchir</string>
+    <string name="d_connexion">Déconnexion</string>
 
 </resources>
