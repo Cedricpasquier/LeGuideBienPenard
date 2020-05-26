@@ -18,9 +18,21 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class LogActivity extends BaseActivity implements View.OnClickListener{
@@ -33,10 +45,9 @@ public class LogActivity extends BaseActivity implements View.OnClickListener{
     public static FirebaseAuth mAuth;
     private Button buttonSwitch;
     private TextView textViewMode;
-    public static String userName;
-    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     Toast toast;
     private static final String TAG = "EmailPassword";
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,7 +135,8 @@ public class LogActivity extends BaseActivity implements View.OnClickListener{
         if(user != null){
             Intent intent = new Intent(this, MainActivity.class);
             String[] userAdrress = user.getEmail().split("@");
-            userName = userAdrress[0];
+            String userName = userAdrress[0];
+            intent.putExtra("userName", userName);
             startActivity(intent);
         }
         hideProgressBar();
@@ -200,8 +212,9 @@ public class LogActivity extends BaseActivity implements View.OnClickListener{
                 });
     }
 
-    public void createAccount(String email, String password) {
+    public void createAccount(String userEmail, String password) {
         showProgressBar();
+        email = userEmail;
         // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -211,6 +224,7 @@ public class LogActivity extends BaseActivity implements View.OnClickListener{
                             Log.d(TAG, "createUserWithEmail:success");
                             sendEmailVerification();
                             accountCreated();
+                            makeApiCallPatchNewUser();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -221,6 +235,44 @@ public class LogActivity extends BaseActivity implements View.OnClickListener{
                         // [END_EXCLUDE]
                     }
                 });
+    }
+
+    public static final String BASE_URL = "https://leguidebienpenard.firebaseio.com/ObjetsDeConfinement/Mf2r9sNvX3rLJpGkpwVD/Users/";
+
+    private void makeApiCallPatchNewUser() {
+
+        String[] userAdrress = email.split("@");
+        String userName = userAdrress[0];
+        User user = userConstructeur(userName);
+
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        GbpApi gbpApi = retrofit.create(GbpApi.class);
+
+        Call<ResponseBody> call = gbpApi.postNewUserData(user, userName);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful() && response.body() != null){
+
+                } else{
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                //showRecycler(savedUser);
+
+            }
+        });
     }
 
     public void sendEmailVerification() {
@@ -254,4 +306,29 @@ public class LogActivity extends BaseActivity implements View.OnClickListener{
         mAuth.signOut();
     }
 
+    private User userConstructeur(String userName){
+        List<Objet> objets = new ArrayList<>();
+        Objet batte = new Objet("Batte de baseball",0);
+        Objet livre = new Objet("Livre",0);
+        Objet canape = new Objet("Canapé",0);
+        Objet casque = new Objet("Casque VR",0);
+        Objet fondVert = new Objet("Fond vert",0);
+        Objet lit = new Objet("Lit",0);
+        Objet ordi = new Objet("Ordinateur",0);
+        Objet frigo = new Objet("Réfrigérateur",0);
+        Objet tapisYoga = new Objet("Tapis de yoga",0);
+        Objet tele = new Objet("Télévision",0);
+        objets.add(batte);
+        objets.add(livre);
+        objets.add(canape);
+        objets.add(casque);
+        objets.add(fondVert);
+        objets.add(lit);
+        objets.add(ordi);
+        objets.add(frigo);
+        objets.add(tapisYoga);
+        objets.add(tele);
+        User user = new User(objets);
+        return user;
+    }
 }

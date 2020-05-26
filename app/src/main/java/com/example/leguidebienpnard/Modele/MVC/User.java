@@ -4,16 +4,17 @@ import java.util.List;
 
 public class User {
 
-    public String nameUser;
     public List<Objet> listeObjets;
 
-    public String getNameUser() {
-        return nameUser;
-    }
-
-    public List<Objet> getObjets() {
+    public List<Objet> getListeObjets() {
         return listeObjets;
     }
 
+    public void addObject(Objet objet){
+        listeObjets.add(objet);
+    }
 
+    public User(List<Objet> listeObjets) {
+        this.listeObjets = listeObjets;
+    }
 }

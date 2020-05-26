@@ -1,5 +1,6 @@
 package com.example.leguidebienpnard.Modele.MVC;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,16 +34,15 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.example.leguidebienpnard.Modele.MVC.LogActivity.userName;
+import static com.example.leguidebienpnard.Modele.MVC.MainActivity.userName;
 
 public class FirstFragment extends Fragment {
-    private FirebaseUser user;
     private RecyclerView recyclerView;
     private ListAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private SharedPreferences sharedPreferences;
     private Gson gson;
-    private List<User> savedUserList;
+    private User savedUser;
 
     @Override
     public View onCreateView(
@@ -56,51 +57,42 @@ public class FirstFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.recycler_view);
         sharedPreferences = view.getContext().getSharedPreferences("user_prefs",Context.MODE_PRIVATE);
+
         gson = new GsonBuilder()
                 .setLenient()
                 .create();
 
-        savedUserList = getDataFromCache();
-
-        makeApiCall();
-
+        savedUser = getDataFromCache();
+        makeApiCallGet();
         // use this setting to
         // improve performance if you know that changes
         // in content do not change the layout size
         // of the RecyclerView
     }
 
-    private List<User> getDataFromCache(){
+    private User getDataFromCache(){
         String jsonUserList = sharedPreferences.getString("jsonUserList",null);
 
         if(jsonUserList == null){
             return null;
         } else {
-            Type listType = new TypeToken<List<User>>(){}.getType();
-            return gson.fromJson(jsonUserList,listType);
+            Type type = new TypeToken<User>(){}.getType();
+            return gson.fromJson(jsonUserList,type);
         }
     }
 
-    private void showRecycler(List<User> listUsers){
+    private void showRecycler(User user){
         recyclerView.setHasFixedSize(true);
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        HashMap mMap = new HashMap();
-        List<Objet> list = new ArrayList();
 
-        for(int index = 0 ; index<listUsers.size();index++){
-            if(listUsers.get(index).getNameUser().equals(userName)){
-                list = listUsers.get(index).getObjets();
-            }
-        }
-
-        mAdapter = new ListAdapter(list);
+        mAdapter = new ListAdapter(user,this.getContext());
         recyclerView.setAdapter(mAdapter);
     }
 
-    private static final String BASE_URL = "https://leguidebienpenard.firebaseio.com/ObjetsDeConfinement/";
-    private void makeApiCall(){
+    public static final String BASE_URL = "https://leguidebienpenard.firebaseio.com/ObjetsDeConfinement/Mf2r9sNvX3rLJpGkpwVD/Users/";
+    private void makeApiCallGet(){
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -110,30 +102,31 @@ public class FirstFragment extends Fragment {
 
         GbpApi gbpApi = retrofit.create(GbpApi.class);
 
-        Call<List<User>> call = gbpApi.getUserList();
-        call.enqueue(new Callback<List<User>>() {
+        Call<User> call = gbpApi.getUserList( userName+ ".json");
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 if(response.isSuccessful() && response.body() != null){
-                    List<User> listUsers = response.body();
-                    Toast.makeText(getActivity(),"API Success",Toast.LENGTH_SHORT).show();
-                    saveList(listUsers);
-                    showRecycler(listUsers);
+                    User user = response.body();
+                    saveList(user);
+                    showRecycler(user);
                 } else{
                     showError();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-                showRecycler(savedUserList);
+            public void onFailure(Call<User> call, Throwable t) {
+                showRecycler(savedUser);
                 showNoInternet();
             }
         });
     }
 
-    private void saveList(List<User> listUsers) {
-        String jsonString = gson.toJson(listUsers);
+
+
+    private void saveList(User user) {
+        String jsonString = gson.toJson(user);
         sharedPreferences
                 .edit()
                 .putString("jsonUserList", jsonString)

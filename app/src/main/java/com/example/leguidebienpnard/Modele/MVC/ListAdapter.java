@@ -1,21 +1,45 @@
 package com.example.leguidebienpnard.Modele.MVC;
 
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.leguidebienpnard.R;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.leguidebienpnard.Modele.MVC.FirstFragment.BASE_URL;
+import static com.example.leguidebienpnard.Modele.MVC.MainActivity.userName;
+
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     private List<Objet> values;
+    private Context context;
+    private User user;
+    public FragmentManager f_manager;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -45,8 +69,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ListAdapter(List<Objet> myDataset) {
-        values = myDataset;
+    public ListAdapter(User user, Context context) {
+        this.values = user.getListeObjets();
+        this.user = user;
+        this.context = context;
     }
 
     // Create new views (invoked by the layout manager)
@@ -68,20 +94,73 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-        holder.text.setText(values.get(position).name);
-
-        holder.text.setOnClickListener(new View.OnClickListener() {
+        holder.text.setText(values.get(position).getName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                remove(position);
+                Bundle bundle = new Bundle();
+                bundle.putString("nameObject", values.get(position).getName());
+                Navigation.findNavController(v).navigate(R.id.action_FirstFragment_to_SecondFragment,bundle);
             }
         });
 
-        if(values.get(position).own == 0){
+        if(values.get(position).getOwn() == 0){
             holder.checkBox.setChecked(false);
         } else {
             holder.checkBox.setChecked(true);
         }
+
+        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    for(Objet o: user.getListeObjets()){
+                        if(o.getName().equals(values.get(position).getName())){
+                            o.setOwn(1);
+                            makeApiCallPost(user.getListeObjets());
+                        }
+                    }
+                } else {
+                    for(Objet o: user.getListeObjets()){
+                        if(o.getName().equals(values.get(position).getName())){
+                            o.setOwn(0);
+                            makeApiCallPost(user.getListeObjets());
+                        }
+                    }
+                }
+
+            }
+        });
+    }
+
+    public void makeApiCallPost(List<Objet> listeObjet){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        GbpApi gbpApi = retrofit.create(GbpApi.class);
+
+        Call<ResponseBody> call = gbpApi.postUserList(userName,listeObjet);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(context,"Donnée sauvegardée",Toast.LENGTH_SHORT).show();
+                } else{
+                    Toast.makeText(context,"Une erreur est survenue",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(context,"Pas de connexion internet",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -89,5 +168,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     public int getItemCount() {
         return values.size();
     }
+
 
 }

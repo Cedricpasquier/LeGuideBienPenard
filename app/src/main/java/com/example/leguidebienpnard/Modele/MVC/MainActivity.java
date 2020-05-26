@@ -16,7 +16,9 @@ import android.widget.Toast;
 
 import com.example.leguidebienpnard.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
+
+    public static String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        Bundle extras = getIntent().getExtras();
+        userName = extras.getString("userName");
         //Toast.makeText(this,userName, Toast.LENGTH_LONG).show();
     }
 
@@ -45,5 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public String getCurrentUserName(){
+        return userName;
     }
 }
