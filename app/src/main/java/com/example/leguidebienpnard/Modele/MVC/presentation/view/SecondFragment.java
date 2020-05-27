@@ -1,8 +1,7 @@
-package com.example.leguidebienpnard.Modele.MVC;
+package com.example.leguidebienpnard.Modele.MVC.presentation.view;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.leguidebienpnard.Modele.MVC.data.GbpApi;
+import com.example.leguidebienpnard.Modele.MVC.presentation.model.Objet;
 import com.example.leguidebienpnard.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

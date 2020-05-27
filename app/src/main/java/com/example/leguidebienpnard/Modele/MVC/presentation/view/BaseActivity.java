@@ -1,4 +1,4 @@
-package com.example.leguidebienpnard.Modele.MVC;
+package com.example.leguidebienpnard.Modele.MVC.presentation.view;
 
 import android.content.Context;
 import android.view.View;

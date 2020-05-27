@@ -1,4 +1,4 @@
-package com.example.leguidebienpnard.Modele.MVC;
+package com.example.leguidebienpnard.Modele.MVC.presentation.model;
 
 import java.util.List;
 

@@ -1,7 +1,6 @@
-package com.example.leguidebienpnard.Modele.MVC;
+package com.example.leguidebienpnard.Modele.MVC.presentation.view;
 
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +12,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.leguidebienpnard.Modele.MVC.data.GbpApi;
+import com.example.leguidebienpnard.Modele.MVC.presentation.model.Objet;
+import com.example.leguidebienpnard.Modele.MVC.presentation.model.User;
 import com.example.leguidebienpnard.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -32,8 +31,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.example.leguidebienpnard.Modele.MVC.FirstFragment.BASE_URL;
-import static com.example.leguidebienpnard.Modele.MVC.MainActivity.userName;
+import static com.example.leguidebienpnard.Modele.MVC.presentation.view.FirstFragment.BASE_URL;
+import static com.example.leguidebienpnard.Modele.MVC.presentation.view.MainActivity.userName;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     private List<Objet> values;

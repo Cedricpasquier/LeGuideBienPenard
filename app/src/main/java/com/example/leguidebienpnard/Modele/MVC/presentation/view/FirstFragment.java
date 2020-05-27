@@ -1,6 +1,5 @@
-package com.example.leguidebienpnard.Modele.MVC;
+package com.example.leguidebienpnard.Modele.MVC.presentation.view;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,20 +12,17 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.leguidebienpnard.Modele.MVC.data.GbpApi;
+import com.example.leguidebienpnard.Modele.MVC.presentation.model.User;
 import com.example.leguidebienpnard.R;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,7 +30,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.example.leguidebienpnard.Modele.MVC.MainActivity.userName;
+import static com.example.leguidebienpnard.Modele.MVC.presentation.view.MainActivity.userName;
 
 public class FirstFragment extends Fragment {
     private RecyclerView recyclerView;

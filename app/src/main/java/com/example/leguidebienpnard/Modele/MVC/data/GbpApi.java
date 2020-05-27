@@ -1,15 +1,15 @@
-package com.example.leguidebienpnard.Modele.MVC;
+package com.example.leguidebienpnard.Modele.MVC.data;
 
-import java.util.HashMap;
+import com.example.leguidebienpnard.Modele.MVC.presentation.model.Objet;
+import com.example.leguidebienpnard.Modele.MVC.presentation.model.User;
+
 import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
-import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Url;

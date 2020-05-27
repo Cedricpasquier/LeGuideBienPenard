@@ -10,9 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Modele.MVC.MainActivity" />
+            android:name=".Modele.MVC.presentation.view.MainActivity" />
 
-        <activity android:name=".Modele.MVC.LogActivity">
+        <activity android:name=".Modele.MVC.presentation.view.LogActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,4 +1,4 @@
-package com.example.leguidebienpnard.Modele.MVC;
+package com.example.leguidebienpnard.Modele.MVC.presentation.model;
 
 public class Objet {
     private String name;

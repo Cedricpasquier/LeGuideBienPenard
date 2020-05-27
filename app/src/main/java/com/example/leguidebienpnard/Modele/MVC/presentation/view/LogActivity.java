@@ -1,4 +1,4 @@
-package com.example.leguidebienpnard.Modele.MVC;
+package com.example.leguidebienpnard.Modele.MVC.presentation.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.leguidebienpnard.Modele.MVC.data.GbpApi;
+import com.example.leguidebienpnard.Modele.MVC.presentation.model.Objet;
+import com.example.leguidebienpnard.Modele.MVC.presentation.model.User;
 import com.example.leguidebienpnard.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,7 +25,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

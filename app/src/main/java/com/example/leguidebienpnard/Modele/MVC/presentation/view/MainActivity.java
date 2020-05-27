@@ -1,19 +1,15 @@
-package com.example.leguidebienpnard.Modele.MVC;
+package com.example.leguidebienpnard.Modele.MVC.presentation.view;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
+import com.example.leguidebienpnard.Modele.MVC.presentation.view.BaseActivity;
+import com.example.leguidebienpnard.Modele.MVC.presentation.view.LogActivity;
 import com.example.leguidebienpnard.R;
 
 public class MainActivity extends BaseActivity {
