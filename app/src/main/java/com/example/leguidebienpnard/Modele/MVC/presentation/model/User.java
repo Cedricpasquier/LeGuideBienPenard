@@ -1,5 +1,6 @@
 package com.example.leguidebienpnard.Modele.MVC.presentation.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {

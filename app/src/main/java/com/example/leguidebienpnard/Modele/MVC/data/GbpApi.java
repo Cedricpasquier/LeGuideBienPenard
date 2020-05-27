@@ -3,6 +3,7 @@ package com.example.leguidebienpnard.Modele.MVC.data;
 import com.example.leguidebienpnard.Modele.MVC.presentation.model.Objet;
 import com.example.leguidebienpnard.Modele.MVC.presentation.model.User;
 
+import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -16,17 +17,17 @@ import retrofit2.http.Url;
 
 public interface GbpApi {
 
-    @GET
-    Call<User> getUserList(@Url String nameUser);
+    @GET("Users/{nameUser}.json")
+    Call<User> getUserList(@Path("nameUser") String nameUser);
 
-    @GET
-    Call<Objet> getObjectDetails(@Url String nameObject);
+    @GET("Objets.json")
+    Call<HashMap<String,Objet>> getListObjectDetails();
 
-    @PATCH("{userName}.json")
+    @PATCH("Users/{userName}.json")
     Call<ResponseBody> postNewUserData(@Body User user,@Path("userName") String userName);
 
-    @PUT("{userName}/listeObjets.json")
-    Call<ResponseBody> postUserList(@Path("userName") String objectRoot, @Body List<Objet> listeObjets);
+    @PUT("Users/{userName}/listeObjets.json")
+    Call<ResponseBody> putUserList(@Path("userName") String objectRoot, @Body List<Objet> listeObjets);
 
 
 }

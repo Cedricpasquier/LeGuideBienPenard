@@ -12,9 +12,11 @@ import com.example.leguidebienpnard.Modele.MVC.presentation.view.BaseActivity;
 import com.example.leguidebienpnard.Modele.MVC.presentation.view.LogActivity;
 import com.example.leguidebienpnard.R;
 
+import static com.example.leguidebienpnard.Modele.MVC.Constants.userName;
+
 public class MainActivity extends BaseActivity {
 
-    public static String userName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +46,5 @@ public class MainActivity extends BaseActivity {
 
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public String getCurrentUserName(){
-        return userName;
     }
 }

@@ -13,8 +13,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.leguidebienpnard.Modele.MVC.data.GbpApi;
+import com.example.leguidebienpnard.Modele.MVC.presentation.controler.LogController;
+import com.example.leguidebienpnard.Modele.MVC.presentation.controler.MainController;
 import com.example.leguidebienpnard.Modele.MVC.presentation.model.Objet;
 import com.example.leguidebienpnard.Modele.MVC.presentation.model.User;
+import com.example.leguidebienpnard.Modele.MVC.presentation.model.UserConstructor;
 import com.example.leguidebienpnard.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -44,18 +47,23 @@ public class LogActivity extends BaseActivity implements View.OnClickListener{
     public EditText editTextEmail;
     public EditText editTextMDP;
     public EditText editTextMDP2;
-    public static FirebaseAuth mAuth;
+    public FirebaseAuth mAuth;
     private Button buttonSwitch;
     private TextView textViewMode;
     Toast toast;
     private static final String TAG = "EmailPassword";
     private String email;
 
+    private LogController controller;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.log_main);
         setProgressBar(R.id.progressBar);
+
+        controller = new LogController();
+
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         // View
         textViewMode = findViewById(R.id.textViewMode);
@@ -119,18 +127,7 @@ public class LogActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-    protected boolean validateForm(){
-        if(isEmailValid(editTextEmail.getText().toString())){
-            if(!editTextMDP.getText().toString().equals("") || editTextMDP.getText().length()>6){
-                return true;
-            } else {
-                editTextMDP.setError("Le mot de passe doit faire minimum 6 charactères.");
-            }
-        } else {
-            editTextEmail.setError("Veuilez entrer une adresse valide.");
-        }
-        return false;
-    }
+
 
 
     private void updateUI(FirebaseUser user){
@@ -176,11 +173,17 @@ public class LogActivity extends BaseActivity implements View.OnClickListener{
 
 
 
-    public static boolean isEmailValid(String email) {
-        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
+    protected boolean validateForm(){
+        if(controller.isEmailValid(editTextEmail.getText().toString())){
+            if(!editTextMDP.getText().toString().equals("") || editTextMDP.getText().length()>6){
+                return true;
+            } else {
+                editTextMDP.setError("Le mot de passe doit faire minimum 6 charactères.");
+            }
+        } else {
+            editTextEmail.setError("Veuilez entrer une adresse valide.");
+        }
+        return false;
     }
 
 
@@ -226,7 +229,7 @@ public class LogActivity extends BaseActivity implements View.OnClickListener{
                             Log.d(TAG, "createUserWithEmail:success");
                             sendEmailVerification();
                             accountCreated();
-                            makeApiCallPatchNewUser();
+                            controller.makeApiCallPatchNewUser(email);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -239,43 +242,7 @@ public class LogActivity extends BaseActivity implements View.OnClickListener{
                 });
     }
 
-    public static final String BASE_URL = "https://leguidebienpenard.firebaseio.com/ObjetsDeConfinement/Mf2r9sNvX3rLJpGkpwVD/Users/";
 
-    private void makeApiCallPatchNewUser() {
-
-        String[] userAdrress = email.split("@");
-        String userName = userAdrress[0];
-        User user = userConstructeur(userName);
-
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        GbpApi gbpApi = retrofit.create(GbpApi.class);
-
-        Call<ResponseBody> call = gbpApi.postNewUserData(user, userName);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.isSuccessful() && response.body() != null){
-
-                } else{
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                //showRecycler(savedUser);
-
-            }
-        });
-    }
 
     public void sendEmailVerification() {
 
@@ -306,31 +273,5 @@ public class LogActivity extends BaseActivity implements View.OnClickListener{
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         mAuth.signOut();
-    }
-
-    private User userConstructeur(String userName){
-        List<Objet> objets = new ArrayList<>();
-        Objet batte = new Objet("Batte de baseball",0);
-        Objet livre = new Objet("Livre",0);
-        Objet canape = new Objet("Canapé",0);
-        Objet casque = new Objet("Casque VR",0);
-        Objet fondVert = new Objet("Fond vert",0);
-        Objet lit = new Objet("Lit",0);
-        Objet ordi = new Objet("Ordinateur",0);
-        Objet frigo = new Objet("Réfrigérateur",0);
-        Objet tapisYoga = new Objet("Tapis de yoga",0);
-        Objet tele = new Objet("Télévision",0);
-        objets.add(batte);
-        objets.add(livre);
-        objets.add(canape);
-        objets.add(casque);
-        objets.add(fondVert);
-        objets.add(lit);
-        objets.add(ordi);
-        objets.add(frigo);
-        objets.add(tapisYoga);
-        objets.add(tele);
-        User user = new User(objets);
-        return user;
     }
 }
