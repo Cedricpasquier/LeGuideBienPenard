@@ -58,14 +58,6 @@ public class SecondFragment extends Fragment {
         importanceDescription = view.findViewById(R.id.importanceDescription);
         localisationDescription = view.findViewById(R.id.localisationDesciption);
         descriptionText = view.findViewById(R.id.descriptionText);
-
-        view.findViewById(R.id.buttonBack).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(SecondFragment.this)
-                        .navigate(R.id.action_SecondFragment_to_FirstFragment);
-            }
-        });
         String stringNameObject = getArguments().getString("nameObject");
         nameObject.setText(stringNameObject);
         displayObect(controller.getDetailledObject(stringNameObject));
