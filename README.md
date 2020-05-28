@@ -37,38 +37,38 @@ Cette application utilise le service d’authentification Firebase de Google, el
 
 - Première écran affichant un champ identifiant et mot de passe
 
-![e1connexion](https://https://github.com/Dedridec/LeGuideBienPenard/blob/master/img_readme/e1connexion.png)
+<img src="img_readme/e1connexion.png" alt="e1connexion">
 
 - Les champs entrées sont vérifié et affichent une erreur si une donnée n'est pas conforme
 
-![e1connexionError1](https://https://github.com/Dedridec/LeGuideBienPenard/blob/master/img_readme/e1ConnexionError1.png)![e1connexionError2](https://https://github.com/Dedridec/LeGuideBienPenard/blob/master/img_readme/e1ConnexionError2.png)
+<img src="img_readme/e1ConnexionError1.png" alt="e1connexion">  <img src="img_readme/e1connexionError2.png" alt="e1connexionError2">
 
 - En bas de l'écran, un bouton créer compte permet de changer l'interface afin de créer un compte
 
-![e1creationCompte](https://https://github.com/Dedridec/LeGuideBienPenard/blob/master/img_readme/e1creationCompte.png) ![e1creationCompte2](https://https://github.com/Dedridec/LeGuideBienPenard/blob/master/img_readme/e1creationCompte2.png)
+<img src="img_readme/e1creationCompte.png" alt="e1creationCompte">  <img src="img_readme/e1creationCompte2.png" alt="e1creationCompte2">
 
 - Quand un compte est créé, un e-mail de vérification est envoyé sur l’adresse renseignée
 
-![emailVerification](https://https://github.com/Dedridec/LeGuideBienPenard/blob/master/img_readme/emailVerification.png) ![emailVerification2](https://https://github.com/Dedridec/LeGuideBienPenard/blob/master/img_readme/emailVerification2.png)
+<img src="img_readme/emailVerification.png" alt="emailVerification">  <img src="img_readme/emailVerification2.png" alt="emailVerification"> 
 
 
 ### Écran principal
 
 - L'affichage de l'écran principal commence par une progressBar, elle est présente le temps que l'appel à l’API n’a pas de réponse
 
-![e2load](https://https://github.com/Dedridec/LeGuideBienPenard/blob/master/img_readme/e2load.png)
+<img src="img_readme/e2load.png" alt="e2load">
 
 -	Si vous êtes connecté au réseau, la progressBar disparaît et l’écran affiche un recyclerView avec les éléments de réponse à l’appel API Rest. Ces éléments sont des objets et comporte un champ checkbox qui signifie que vous le possédez ou non.
 
-![e2recyclerView](https://https://github.com/Dedridec/LeGuideBienPenard/blob/master/img_readme/e2recyclerView.png)
+<img src="img_readme/e2recyclerView.png" alt="e2recyclerView">
 
 -	Lors d’un clic sur une checkbox une requête de type PUT et envoyé sur l’API Rest afin d’enregistré la modification. 
 
-![e2checkbox](https://https://github.com/Dedridec/LeGuideBienPenard/blob/master/img_readme/e2checkbox.png)
+<img src="img_readme/e2checkbox.png" alt="e2checkbox">
 
 -	Si vous n’êtes pas connecté au réseau, une fenêtre pop-up viendra vous notifier que vous n’êtes plus connecté et que les modifications faites ne seront pas enregistrées. Dès lors la recyclerVIew utilisera des données sauvegardées en cache. Cette fonctionnalité peut être testé en se déconnectant du réseau et en rafraîchissant la page à l’aide du bouton en haut à droite
 
-![e2deconnected](https://https://github.com/Dedridec/LeGuideBienPenard/blob/master/img_readme/e2deconnected.png)
+<img src="img_readme/e2deconnected.png" alt="e2deconnected">
 
 
 ### Écran détails des objets
@@ -79,8 +79,7 @@ Les informations sur l’objet sont :
     - Les lieux où on-peut le trouver
     - Une courte description
 
-![e3batte](https://https://github.com/Dedridec/LeGuideBienPenard/blob/master/img_readme/e3batte.png) ![e3refregirateur](https://https://github.com/Dedridec/LeGuideBienPenard/blob/master/img_readme/e3refregirateur.png) ![e3livre](https://https://github.com/Dedridec/LeGuideBienPenard/blob/master/img_readme/e3livre.png)
-
+<img src="img_readme/e3batte.png" alt="e3batte">  <img src="img_readme/e3refregirateur.png" alt="e3refregirateur">  <img src="img_readme/e3livre.png" alt="e3livre">
 
 
 
