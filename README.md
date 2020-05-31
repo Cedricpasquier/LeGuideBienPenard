@@ -3,7 +3,7 @@
 
 ## Presentation
 
-Ce projet respect une architecture MVC avec des singletons dans un application android codé en Java.  
+Ce projet respect une architecture MVC avec un singletons dans un application android codé en Java.  
 Cette application est une check-list d'objets nécessaires afin de passer un bon confinement.  
 Elle dispose également de session utilisateurs afin de proposer des check-lists propres à chacun.  
 Cette application utilise le service d’authentification Firebase de Google, elle fait également des appels API Rest sur la real-time database de Firebase.
